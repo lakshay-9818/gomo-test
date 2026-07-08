@@ -1,0 +1,105 @@
+import { client, hasSanityConfig } from '@/sanity/lib/client'
+import {
+  homepageQuery,
+} from '@/sanity/lib/queries'
+import { mockHomepage } from '@/lib/mockData'
+import type { HomepageData, ProductData, SiteSettingsData } from '@/types'
+
+export interface ContentResult<T> {
+  data: T
+  /** true when this came from local fallback data instead of Sanity */
+  isFallback: boolean
+  error?: string
+}
+
+/**
+ * Every function here follows the same pattern: try Sanity, and if the
+ * project isn't configured yet (or the request fails for any reason —
+ * network, bad query, wrong dataset), fall back to local mock content
+ * instead of crashing the page. The `isFallback` flag lets the UI show a
+ * subtle "showing sample content" banner when relevant.
+ */
+
+export async function getHomepage(): Promise<ContentResult<HomepageData>> {
+  if (!hasSanityConfig) {
+    return { data: mockHomepage, isFallback: true, error: 'Sanity is not configured yet.' }
+  }
+  try {
+    const data = await client.fetch<HomepageData | null>(
+      homepageQuery,
+      {},
+      { next: { revalidate: 60 } }
+    )
+    if (!data) {
+    console.log('No homepage document found in Sanity. Returning mock data.');
+      return { data: mockHomepage, isFallback: true, error: 'No homepage document found in Sanity.' }
+    }
+    return { data, isFallback: false }
+  } catch (err) {
+    console.error('Failed to fetch homepage from Sanity:', err)
+    return { data: mockHomepage, isFallback: true, error: 'Could not reach Sanity.' }
+  }
+}
+
+// export async function getAllProducts(): Promise<ContentResult<ProductData[]>> {
+//   if (!hasSanityConfig) {
+//     return { data: mockProducts, isFallback: true, error: 'Sanity is not configured yet.' }
+//   }
+//   try {
+//     const data = await client.fetch<ProductData[]>(
+//       allProductsQuery,
+//       {},
+//       { next: { revalidate: 60 } }
+//     )
+//     if (!data || data.length === 0) {
+//       return { data: mockProducts, isFallback: true, error: 'No products found in Sanity.' }
+//     }
+//     return { data, isFallback: false }
+//   } catch (err) {
+//     console.error('Failed to fetch products from Sanity:', err)
+//     return { data: mockProducts, isFallback: true, error: 'Could not reach Sanity.' }
+//   }
+// }
+
+// export async function getProductBySlug(slug: string): Promise<ContentResult<ProductData | null>> {
+//   if (!hasSanityConfig) {
+//     const fallback = mockProducts.find((p) => p.slug === slug) ?? null
+//     return { data: fallback, isFallback: true, error: 'Sanity is not configured yet.' }
+//   }
+//   try {
+//     const data = await client.fetch<ProductData | null>(
+//       productBySlugQuery,
+//       { slug },
+//       { next: { revalidate: 60 } }
+//     )
+//     if (!data) {
+//       const fallback = mockProducts.find((p) => p.slug === slug) ?? null
+//       return { data: fallback, isFallback: true, error: 'Product not found in Sanity.' }
+//     }
+//     return { data, isFallback: false }
+//   } catch (err) {
+//     console.error('Failed to fetch product from Sanity:', err)
+//     const fallback = mockProducts.find((p) => p.slug === slug) ?? null
+//     return { data: fallback, isFallback: true, error: 'Could not reach Sanity.' }
+//   }
+// }
+
+// export async function getSiteSettings(): Promise<ContentResult<SiteSettingsData>> {
+//   if (!hasSanityConfig) {
+//     return { data: mockSiteSettings, isFallback: true, error: 'Sanity is not configured yet.' }
+//   }
+//   try {
+//     const data = await client.fetch<SiteSettingsData | null>(
+//       siteSettingsQuery,
+//       {},
+//       { next: { revalidate: 300 } }
+//     )
+//     if (!data) {
+//       return { data: mockSiteSettings, isFallback: true, error: 'No site settings document found.' }
+//     }
+//     return { data, isFallback: false }
+//   } catch (err) {
+//     console.error('Failed to fetch site settings from Sanity:', err)
+//     return { data: mockSiteSettings, isFallback: true, error: 'Could not reach Sanity.' }
+//   }
+// }
