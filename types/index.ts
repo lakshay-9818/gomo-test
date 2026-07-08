@@ -123,3 +123,51 @@ export interface InsightData {
   coverImage: unknown;
   publishedAt: string;
 }
+
+export interface NavLinkData {
+  _type: 'navLink';
+  label: string;
+  href: string;
+}
+
+export interface NavDropdownData {
+  _type: 'navDropdown';
+  label: string;
+  links: NavLinkData[];
+}
+
+export type NavItem = NavLinkData | NavDropdownData;
+
+export interface HeaderSettingsData {
+  logoText: string;
+  navItems: NavItem[];
+  ctaText: string;
+  ctaLink: string;
+}
+
+export interface FooterLinkItem {
+  label: string;
+  href: string;
+}
+
+export interface FooterLinkGroupData {
+  title: string;
+  links: FooterLinkItem[];
+}
+
+export interface FooterContactGroupData {
+  title: string;
+  phone?: string;
+  email?: string;
+  visitingAddress?: string;
+  postalAddress?: string;
+}
+
+export interface FooterSettingsData {
+  bigLogoText: string;
+  businessAreas: FooterLinkGroupData;
+  quickLinks: FooterLinkGroupData;
+  resources: FooterLinkGroupData;
+  contactInfo: FooterContactGroupData;
+  newsletterHeading: string;
+}

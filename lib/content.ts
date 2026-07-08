@@ -3,10 +3,11 @@ import {
   homepageQuery,
   solutionCategoriesQuery,
   getAllFeatureItemsQuery,
-  getAllInsightsQuery
+  getAllInsightsQuery,
+  getLayoutDataQuery,
 } from '@/sanity/lib/queries'
 import { mockHomepage,mockCategories } from '@/lib/mockData'
-import type { HomepageData, ProductData, SiteSettingsData,SolutionCategory, FeatureItem, InsightData} from '@/types'
+import type { HomepageData, ProductData, SiteSettingsData,SolutionCategory, FeatureItem, InsightData,HeaderSettingsData,FooterSettingsData} from '@/types'
 
 export interface ContentResult<T> {
   data: T
@@ -22,6 +23,31 @@ export interface ContentResult<T> {
  * instead of crashing the page. The `isFallback` flag lets the UI show a
  * subtle "showing sample content" banner when relevant.
  */
+
+export async function getLayoutData(): Promise<ContentResult<{ header: HeaderSettingsData | null; footer: FooterSettingsData | null }>> {
+  if (!hasSanityConfig) {
+    return { data: { header: null, footer: null }, isFallback: true, error: 'Sanity is not configured yet.' }
+  }
+  try {
+    const data = await client.fetch<{ header: HeaderSettingsData | null; footer: FooterSettingsData | null }>(
+      getLayoutDataQuery,
+      {},
+      { next: { revalidate: 300 } }
+    )
+if (!data.header && !data.footer) {
+  return {
+    data: { header: null, footer: null },
+    isFallback: true,
+    error: "No layout data found in Sanity.",
+  };
+}
+    return { data, isFallback: false }
+  } catch (err) {
+    console.error('Failed to fetch layout data from Sanity:', err)
+    return { data: { header: null, footer: null }, isFallback: true, error: 'Could not reach Sanity.' }
+  }
+}
+  
 
 export async function getHomepage(): Promise<ContentResult<HomepageData>> {
   if (!hasSanityConfig) {

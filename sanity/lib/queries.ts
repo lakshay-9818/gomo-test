@@ -22,6 +22,23 @@ export const getAllInsightsQuery =
   coverImage,
   publishedAt
 }`;
+export const getLayoutDataQuery = `{
+    "header": *[_type == "headerSettings"][0]{
+      logoText,
+      navItems[],
+      ctaText,
+      ctaLink
+    },
+    "footer": *[_type == "footerSettings"][0]{
+      bigLogoText,
+      businessAreas{ title, links[] },
+      quickLinks{ title, links[] },
+      resources{ title, links[] },
+      contactInfo{ title, phone, email, visitingAddress, postalAddress },
+      newsletterHeading
+    }
+  }`;
+
 // export const homepageQuery = groq`
 // *[_type == "homepage"][0]{
 //   hero{ heading, ctaLabel, ctaHref, image },
