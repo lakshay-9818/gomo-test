@@ -108,3 +108,18 @@ export interface SolutionCategory {
   tags?: string[];
   description?: string;
 }
+
+export interface FeatureItem {
+  _id: string;
+  title: string;
+  description: string;
+  iconImage: unknown;
+}
+export interface InsightData {
+  _id: string;
+  title: string;
+  slug: string;
+  type: 'news' | 'article' | 'press-release';
+  coverImage: unknown;
+  publishedAt: string;
+}

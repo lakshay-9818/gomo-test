@@ -5,9 +5,11 @@ import Intro from '@/components/Intro'
 // import NewsletterForm from '@/components/NewsletterForm'
 import Portfolio from '@/components/Portfolio'
 import ErrorState from '@/components/ErrorState'
-import { getHomepage, getSolutionCategories } from '@/lib/content'
+import { getHomepage, getSolutionCategories, getAllFeatureItems, getAllInsights } from '@/lib/content'
 import LogoMarquee from '@/components/LogoMarquee'
 import Categories from '@/components/Categories'
+import FeaturesSection from '@/components/FeaturesSection'
+import Insights from '@/components/Insights'
 
 // Revalidate this page's cached data every 60s (ISR) — a lightweight
 // caching/revalidation strategy so content edits in Sanity show up
@@ -17,7 +19,8 @@ export const revalidate = 60
 export default async function HomePage() {
   const { data: homepage } = await getHomepage()
   const solutionCategories   = await getSolutionCategories();
-
+  const features = await getAllFeatureItems(); 
+  const insights = await getAllInsights(); // Fetch insights data
   if (!homepage) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center px-4">
@@ -35,6 +38,8 @@ export default async function HomePage() {
       <Intro intro={homepage.intro}/>
       <LogoMarquee brandsServed={homepage.brandsServed} />
       <Categories categories={solutionCategories?.data} />
+      <FeaturesSection features={features?.data} />
+      <Insights insights={insights?.data} />
       {/* <Portfolio projects={homepage.projects ?? []} /> */}
       {/* <Features features={homepage.features} /> */}
       {/* <Testimonials testimonials={homepage.testimonials} /> */}
