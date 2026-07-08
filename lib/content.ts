@@ -1,9 +1,10 @@
 import { client, hasSanityConfig } from '@/sanity/lib/client'
 import {
   homepageQuery,
+  solutionCategoriesQuery
 } from '@/sanity/lib/queries'
-import { mockHomepage } from '@/lib/mockData'
-import type { HomepageData, ProductData, SiteSettingsData } from '@/types'
+import { mockHomepage,mockCategories } from '@/lib/mockData'
+import type { HomepageData, ProductData, SiteSettingsData,SolutionCategory } from '@/types'
 
 export interface ContentResult<T> {
   data: T
@@ -40,6 +41,47 @@ export async function getHomepage(): Promise<ContentResult<HomepageData>> {
     return { data: mockHomepage, isFallback: true, error: 'Could not reach Sanity.' }
   }
 }
+export async function getSolutionCategories(): Promise<ContentResult<SolutionCategory[]>> {
+  // Check config availability
+  if (!hasSanityConfig) {
+    return { 
+      data: mockCategories, 
+      isFallback: true, 
+      error: 'Sanity is not configured yet.' 
+    };
+  }
+
+  try {
+    // Explicitly type the fetch return to hold either the category array or null
+    const data = await client.fetch<SolutionCategory[] | null>(
+      solutionCategoriesQuery,
+      {},
+      { next: { revalidate: 60 } } // Revalidate cache every 60 seconds
+    );
+
+    // Guard array checks: confirm document collection is not empty
+    if (!data || data.length === 0) {
+      console.log('No categories found in Sanity. Returning mock data.');
+      return { 
+        data: mockCategories, 
+        isFallback: true, 
+        error: 'No category documents found in Sanity.' 
+      };
+    }
+
+    // Success response block
+    return { data, isFallback: false };
+
+  } catch (err) {
+    console.error('Failed to fetch categories from Sanity:', err);
+    return { 
+      data: mockCategories, 
+      isFallback: true, 
+      error: err instanceof Error ? err.message : 'Could not reach Sanity API endpoints.' 
+    };
+  }
+}
+
 
 // export async function getAllProducts(): Promise<ContentResult<ProductData[]>> {
 //   if (!hasSanityConfig) {

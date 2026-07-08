@@ -1,4 +1,4 @@
-import type { HomepageData, ProductData, SiteSettingsData } from '@/types'
+import type { HomepageData, ProductData, SiteSettingsData, SolutionCategory } from '@/types'
 
 /**
  * This fallback content lets the UI render correctly *before* a real Sanity
@@ -27,4 +27,18 @@ export const mockHomepage: HomepageData = {
       { _key: 'stat-3', value: '99%', label: 'Customer Satisfaction' },
     ],
   },
+  brandsServed: [
+    { name: 'Polarbröd', logo: '/logos/polarbrod.svg' },
+    { name: 'Sushi Yama', logo: '/logos/sushiyama.svg' },
+    { name: 'Capricci', logo: '/logos/capricci.svg' },
+    { name: 'Hard Rock Cafe', logo: '/logos/hardrock.svg' },
+  ],
 }
+
+export const mockCategories: SolutionCategory[] = [
+  {
+    _id: "mock-offices",
+    name: "Offices & Workplaces",
+    id: { current: "offices" },
+  },
+];

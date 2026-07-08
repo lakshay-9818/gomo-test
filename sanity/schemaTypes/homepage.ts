@@ -7,8 +7,8 @@ export const homepage = defineType({
   groups: [
     { name: 'hero', title: 'Hero' },
     { name: 'intro', title: 'Intro & Stats' },
+    { name: 'brandsServed', title: 'Brands Served' },
     // { name: 'categories', title: 'Categories' },
-    // { name: 'social', title: 'Testimonials & CTA' },
     // { name: 'seo', title: 'SEO' },
   ],
   fields: [
@@ -62,8 +62,22 @@ export const homepage = defineType({
     }),
          ],
     }),
-
-   
+    defineField({
+      name: 'brandsServed',
+      title: 'Brands Served',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'brand',
+          fields: [
+            defineField({ name: 'name', type: 'string', title: 'Brand Name' }),
+            defineField({ name: 'logo', type: 'image', title: 'Brand Logo', options: { hotspot: true } }),
+          ],
+          preview: { select: { title: 'name', media: 'logo' } },
+        }),
+      ],
+    }),
 ]
 
 //     defineField({

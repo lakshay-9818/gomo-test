@@ -18,6 +18,12 @@ export interface IntroData {
   introImage?: unknown
   stats?: { _key: string; value?: string; label?: string }[]
 }
+
+export interface BrandServedData {
+  name: string;
+  logo: string;
+}
+
 export interface ProjectData {
   _id: string
   title: string
@@ -55,6 +61,7 @@ export interface TestimonialData {
 export interface HomepageData {
   hero?: HeroData
   intro?: IntroData
+  brandsServed?: BrandServedData[]
   projects?: ProjectData[]
   features?: FeatureData[]
   testimonials?: TestimonialData[]
@@ -89,4 +96,15 @@ export interface SiteSettingsData {
   footerLinks?: FooterLink[]
   socialLinks?: SocialLink[]
   defaultSeo?: SeoData
+}
+
+export interface SolutionCategory {
+  _id: string;
+  name: string;
+  id: {
+    current: string;
+  };
+  image: unknown;
+  tags?: string[];
+  description?: string;
 }

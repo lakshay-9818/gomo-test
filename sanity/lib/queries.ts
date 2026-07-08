@@ -4,8 +4,10 @@ export const homepageQuery = groq`
 *[_type == "homepage"][0]{
   hero{ heading,subheading, cta, ctaHref, image },
   intro{ introHeading, introParagraphs, introImage, stats[]{ _key, value, label } },
+  brandsServed[]{ _key, name, logo },
 }`
 
+export const solutionCategoriesQuery = `*[_type == "solutionCategory"]{ _id, name, id, image, tags, description }`;
 // export const homepageQuery = groq`
 // *[_type == "homepage"][0]{
 //   hero{ heading, ctaLabel, ctaHref, image },
