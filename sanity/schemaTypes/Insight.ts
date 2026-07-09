@@ -34,7 +34,7 @@ export const insightType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-  name: 'type',
+  name: 'classifi',
   title: 'Insight Type',
   type: 'string',
   description: 'Classify what kind of insight this document is.',

@@ -40,7 +40,7 @@ export default function FeaturesSection({ features }: { features: FeatureItem[] 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-slate-900/10">
         {features.map((item) => {
           const iconUrl = item.iconImage 
-            ? urlForImage(item.iconImage).width(48).height(48).url() 
+            ? urlForImage(item.iconImage as never)?.width(48).height(48).url() 
             : null;
 
           return (

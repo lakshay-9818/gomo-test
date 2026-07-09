@@ -5,7 +5,9 @@ import {
   getAllFeatureItemsQuery,
   getAllInsightsQuery,
   getLayoutDataQuery,
-  allProductsQuery
+  allProductsQuery,
+  productBySlugQuery,
+  relatedProductsQuery,
 } from '@/sanity/lib/queries'
 import { mockHomepage,mockCategories,mockProducts } from '@/lib/mockData'
 import type { HomepageData, ProductData, SiteSettingsData,SolutionCategory, FeatureItem, InsightData,HeaderSettingsData,FooterSettingsData} from '@/types'
@@ -172,48 +174,46 @@ export async function getAllProducts(): Promise<ContentResult<ProductData[]>> {
   }
 }
 
-// export async function getAllProducts(): Promise<ContentResult<ProductData[]>> {
-//   if (!hasSanityConfig) {
-//     return { data: mockProducts, isFallback: true, error: 'Sanity is not configured yet.' }
-//   }
-//   try {
-//     const data = await client.fetch<ProductData[]>(
-//       allProductsQuery,
-//       {},
-//       { next: { revalidate: 60 } }
-//     )
-//     if (!data || data.length === 0) {
-//       return { data: mockProducts, isFallback: true, error: 'No products found in Sanity.' }
-//     }
-//     return { data, isFallback: false }
-//   } catch (err) {
-//     console.error('Failed to fetch products from Sanity:', err)
-//     return { data: mockProducts, isFallback: true, error: 'Could not reach Sanity.' }
-//   }
-// }
+export async function getProductBySlug(slug: string): Promise<ContentResult<ProductData | null>> {
+  if (!hasSanityConfig) {
+    const fallback = mockProducts.find((p) => p.slug === slug) ?? null
+    return { data: fallback, isFallback: true, error: 'Sanity is not configured yet.' }
+  }
+  try {
+    const data = await client.fetch<ProductData | null>(
+      productBySlugQuery,
+      { slug },
+      { next: { revalidate: 60 } }
+    )
+    if (!data) {
+      const fallback = mockProducts.find((p) => p.slug === slug) ?? null
+      return { data: fallback, isFallback: true, error: 'Product not found in Sanity.' }
+    }
+    return { data, isFallback: false }
+  } catch (err) {
+    console.error('Failed to fetch product from Sanity:', err)
+    const fallback = mockProducts.find((p) => p.slug === slug) ?? null
+    return { data: fallback, isFallback: true, error: 'Could not reach Sanity.' }
+  }
+}
 
-// export async function getProductBySlug(slug: string): Promise<ContentResult<ProductData | null>> {
-//   if (!hasSanityConfig) {
-//     const fallback = mockProducts.find((p) => p.slug === slug) ?? null
-//     return { data: fallback, isFallback: true, error: 'Sanity is not configured yet.' }
-//   }
-//   try {
-//     const data = await client.fetch<ProductData | null>(
-//       productBySlugQuery,
-//       { slug },
-//       { next: { revalidate: 60 } }
-//     )
-//     if (!data) {
-//       const fallback = mockProducts.find((p) => p.slug === slug) ?? null
-//       return { data: fallback, isFallback: true, error: 'Product not found in Sanity.' }
-//     }
-//     return { data, isFallback: false }
-//   } catch (err) {
-//     console.error('Failed to fetch product from Sanity:', err)
-//     const fallback = mockProducts.find((p) => p.slug === slug) ?? null
-//     return { data: fallback, isFallback: true, error: 'Could not reach Sanity.' }
-//   }
-// }
+export async function getRelatedProducts(category?: string, id?: string): Promise<ProductData[]> {
+  if (!category || !id) return []
+  if (!hasSanityConfig) {
+    return mockProducts.filter((p) => p.category === category && p._id !== id)
+  }
+  try {
+    const data = await client.fetch<ProductData[]>(
+      relatedProductsQuery,
+      { category, id },
+      { next: { revalidate: 60 } }
+    )
+    return data || []
+  } catch (err) {
+    console.error('Failed to fetch related products:', err)
+    return mockProducts.filter((p) => p.category === category && p._id !== id)
+  }
+}
 
 // export async function getSiteSettings(): Promise<ContentResult<SiteSettingsData>> {
 //   if (!hasSanityConfig) {

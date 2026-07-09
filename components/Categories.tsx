@@ -225,9 +225,9 @@ export default function Categories({ categories }: { categories: SolutionCategor
           {/* Right Panel: Feature Showroom Card */}
           <div className="relative rounded-2xl overflow-hidden min-h-[500px] flex flex-col justify-end group shadow-md">
 
-                      {currentTab.image && 
+                      {urlForImage(currentTab.image as never)?.url() && 
                           <Image
-                              src={urlForImage(currentTab.image)?.width(1200).height(800).url() || 'image-placeholder.jpg'}
+                              src={urlForImage(currentTab.image as never)?.width(1200).height(800).url() || 'image-placeholder.jpg'}
                               alt={currentTab.name}
                               fill
                               className="object-cover transition-transform duration-700 ease-out"

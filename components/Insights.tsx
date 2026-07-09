@@ -62,25 +62,24 @@ export default function Insights({ insights }: { insights: InsightData[] }) {
               className="relative flex-none w-[85vw] sm:w-[45vw] lg:w-[28vw] aspect-[4/5] rounded-[24px] overflow-hidden group snap-start shadow-sm"
             >
               {/* Floating Classification Tag Badge */}
-              {insight.type && (
+              {insight.classifi != null && (
                 <div className="absolute top-5 left-5 z-10">
                   <span className="text-xs font-light text-slate-200 bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 capitalize tracking-wide">
-                    {insight.type === 'press-release' ? 'Press release' : insight.type}
+                    {insight.classifi === 'press-release' ? 'Press release' : insight.classifi}
                   </span>
                 </div>
               )}
 
               {/* Project Background Image */}
-              {insight.coverImage && (
-                <Image
-                  src={urlForImage(insight.coverImage).width(600).height(750).url()}
-                  alt={insight.title}
+              
+              {insight.coverImage != null && (() => {
+                const imgSrc = urlForImage(insight.coverImage)?.width(600).height(750).url();
+                return imgSrc ? <Image src={imgSrc} alt={insight.title}
                   fill
                   sizes="(max-w-640px) 85vw, (max-w-1024px) 45vw, 28vw"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  unoptimized
-                />
-              )}
+                  unoptimized /> : null;
+              })()}
 
               {/* Bottom Glass Overlay Container */}
               <div className="absolute bottom-0 left-0 right-0 p-1">

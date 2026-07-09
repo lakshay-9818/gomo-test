@@ -32,17 +32,6 @@ export interface ProjectData {
   image: unknown
 }
 
-export interface InsightData {
-  _id: string
-  title: string
-  slug: string
-  category?: 'News' | 'Article' | 'Press Release'
-  coverImage?: unknown
-  excerpt?: string
-  body?: unknown[]
-  publishedAt?: string
-}
-
 export interface FeatureData {
   _key: string
   title?: string
@@ -104,7 +93,7 @@ export interface SolutionCategory {
   id: {
     current: string;
   };
-  image: unknown;
+  image?: unknown;
   tags?: string[];
   description?: string;
 }
@@ -119,7 +108,7 @@ export interface InsightData {
   _id: string;
   title: string;
   slug: string;
-  type: 'news' | 'article' | 'press-release';
+  classifi: 'news' | 'article' | 'press-release';
   coverImage: unknown;
   publishedAt: string;
 }

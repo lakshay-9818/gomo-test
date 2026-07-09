@@ -18,7 +18,7 @@ export const getAllInsightsQuery =
   _id,
   title,
   "slug": slug.current, // <-- CRITICAL: This extracts the string out of the object
-  type,
+  classifi,
   coverImage,
   publishedAt
 }`;
@@ -41,6 +41,29 @@ export const getLayoutDataQuery = `{
 
   export const allProductsQuery = groq`
 *[_type == "product"] | order(name asc){
+  _id,
+  name,
+  "slug": slug.current,
+  shortDescription,
+  mainImage,
+  category,
+}`
+
+export const productBySlugQuery = groq`
+*[_type == "product" && slug.current == $slug][0]{
+  _id,
+  name,
+  "slug": slug.current,
+  shortDescription,
+  description,
+  mainImage,
+  gallery,
+  category,
+  seo,
+}`
+
+export const relatedProductsQuery = groq`
+*[_type == "product" && category == $category && _id != $id] | order(name asc){
   _id,
   name,
   "slug": slug.current,
