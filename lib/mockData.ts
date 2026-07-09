@@ -43,6 +43,12 @@ export const mockProducts: ProductData[] = [
     shortDescription: 'Ergonomic professional whisk mixer for high-volume bakeries.',
     description:
       'The Björn Whisk Mixer is engineered for continuous daily use, with a reinforced motor housing and a whisk head designed to aerate batters evenly at every speed setting. Trusted across professional bakery lines for consistent results shift after shift.',
+    articleNumber: 'BWM-1000',
+    models: [
+      { name: 'Standard', articleNumber: 'BWM-1000-S' },
+      { name: 'Compact', articleNumber: 'BWM-1000-C' },
+      { name: 'Pro XL', articleNumber: 'BWM-1000-XL' },
+    ],
   },
   {
     _id: 'mock-2',

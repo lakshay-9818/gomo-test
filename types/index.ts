@@ -57,15 +57,23 @@ export interface HomepageData {
   seo?: SeoData
 }
 
+export interface ProductModel {
+  name?: string
+  articleNumber?: string
+}
+
 export interface ProductData {
   _id: string
+  _type?: string
   name: string
   slug: string
   shortDescription?: string
-  description?: string
+  description?: unknown
   mainImage?: unknown
   gallery?: unknown[]
   category?: string
+  articleNumber?: string
+  models?: ProductModel[]
   seo?: SeoData
 }
 

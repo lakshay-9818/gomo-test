@@ -11,7 +11,7 @@ import { headerSettingsType } from './headerSettings'
 import {footerSettingsType} from './footerSettings'
 import {footerContactGroupType} from './Objects/footerContactGroup'
 import {footerLinkGroupType} from './Objects/footerLinkGroup'
-// import { product } from './product'
+import { product } from './product'
 // import { siteSettings } from './siteSettings'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -26,8 +26,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     headerSettingsType,
     footerContactGroupType,
     footerLinkGroupType,
-    footerSettingsType
-    // product, 
+    footerSettingsType,
+    product, 
     // siteSettings
   ],
 }

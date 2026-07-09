@@ -47,6 +47,8 @@ export const getLayoutDataQuery = `{
   shortDescription,
   mainImage,
   category,
+  articleNumber,
+  models[] { name, articleNumber },
 }`
 
 export const productBySlugQuery = groq`
@@ -59,7 +61,13 @@ export const productBySlugQuery = groq`
   mainImage,
   gallery,
   category,
-  seo,
+  articleNumber,
+  models[] { name, articleNumber },
+  seo {
+    title,
+    description,
+    ogImage
+  },
 }`
 
 export const relatedProductsQuery = groq`
@@ -70,6 +78,8 @@ export const relatedProductsQuery = groq`
   shortDescription,
   mainImage,
   category,
+  articleNumber,
+  models[] { name, articleNumber },
 }`
 // export const homepageQuery = groq`
 // *[_type == "homepage"][0]{

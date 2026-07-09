@@ -6,6 +6,7 @@ import { FilterSidebar, type Category } from './FilterSidebar'
 import type { ProductData } from '@/types'
 
 export default function ProductGrid({ products }: { products: ProductData[] }) {
+  
   const [query, setQuery] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 

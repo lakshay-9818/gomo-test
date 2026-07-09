@@ -163,10 +163,13 @@ export async function getAllProducts(): Promise<ContentResult<ProductData[]>> {
     return { data: mockProducts, isFallback: true, error: 'Sanity is not configured yet.' }
   }
   try {
+    console.log('Fetching all products from Sanity...');
     const data = await client.fetch<ProductData[]>(allProductsQuery, {}, { next: { revalidate: 60 } })
     if (!data || data.length === 0) {
+      console.log('No products found in Sanity. Returning mock data.');
       return { data: mockProducts, isFallback: true, error: 'No products found in Sanity.' }
     }
+    console.log(`Fetched ${data.length} products from Sanity.`);
     return { data, isFallback: false }
   } catch (err) {
     console.error('Failed to fetch products from Sanity:', err)
