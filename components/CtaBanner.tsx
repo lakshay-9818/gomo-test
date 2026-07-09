@@ -8,9 +8,9 @@ interface CtaBannerProps {
   }
 }
 
-export default function CtaBanner({ cta }: CtaBannerProps) {
+export default function CtaBanner({ cta, id }: CtaBannerProps & { id?: string }) {
   return (
-    <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+    <section id={id} className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
       <div className="relative flex h-40 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-[#7c6c53] to-[#332c22] text-center sm:h-48">
         <div className="relative px-6">
           <p className="text-lg font-medium text-white sm:text-xl">{cta.heading}</p>

@@ -1,7 +1,7 @@
 import type { IntroData } from '@/types'
 import { urlForImage } from '@/sanity/lib/image'
 
-export default function Intro({ intro }: { intro?: IntroData }) {
+export default function Intro({ intro, id }: { intro?: IntroData; id?: string }) {
   if (!intro) return null
   else {console.log("INtropara",intro.introParagraphs)}
 
@@ -36,7 +36,7 @@ export default function Intro({ intro }: { intro?: IntroData }) {
 };
 
   return (
-    <section className="bg-[#f4eee6] text-[#1c2c24] font-sans px-6 py-16 md:py-24">
+    <section id={id} className="bg-[#f4eee6] text-[#1c2c24] font-sans px-6 py-16 md:py-24">
       <div className="max-w-7xl mx-auto">
         
         {/* Header Section */}

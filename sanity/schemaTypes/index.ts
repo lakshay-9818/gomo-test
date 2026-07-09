@@ -12,6 +12,7 @@ import {footerSettingsType} from './footerSettings'
 import {footerContactGroupType} from './Objects/footerContactGroup'
 import {footerLinkGroupType} from './Objects/footerLinkGroup'
 import { product } from './product'
+import { teamMember } from './teamMember'
 // import { siteSettings } from './siteSettings'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -27,7 +28,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     footerContactGroupType,
     footerLinkGroupType,
     footerSettingsType,
-    product, 
+    product,
+    teamMember,
     // siteSettings
   ],
 }

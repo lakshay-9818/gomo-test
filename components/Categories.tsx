@@ -167,7 +167,7 @@ import { urlForImage } from '@/sanity/lib/image'
 import type {SolutionCategory} from '@/types'
 
 
-export default function Categories({ categories }: { categories: SolutionCategory[] }) {
+export default function Categories({ categories, id }: { categories: SolutionCategory[]; id?: string }) {
   // Hooks MUST be called before any early return
   const [activeTab, setActiveTab] = useState<SolutionCategory | null>(null);
 
@@ -180,7 +180,7 @@ export default function Categories({ categories }: { categories: SolutionCategor
   const currentTab = activeTab ?? categories[0];
 
   return (
-    <section className="bg-[#f4eee6] text-[#1c2c24] font-sans px-6 py-16 md:py-24">
+    <section id={id} className="bg-[#f4eee6] text-[#1c2c24] font-sans px-6 py-16 md:py-24">
       <div className="max-w-7xl mx-auto">
         
         {/* Top Header Text Section */}

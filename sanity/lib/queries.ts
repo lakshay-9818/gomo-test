@@ -70,6 +70,18 @@ export const productBySlugQuery = groq`
   },
 }`
 
+export const teamMembersQuery = groq`
+*[_type == "teamMember"] | order(name asc){
+  _id,
+  name,
+  role,
+  description,
+  phone,
+  email,
+  linkedin,
+  image,
+}`
+
 export const relatedProductsQuery = groq`
 *[_type == "product" && category == $category && _id != $id] | order(name asc){
   _id,

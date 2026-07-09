@@ -35,11 +35,11 @@ export default async function HomePage() {
   return (
     <>
       <Hero hero={homepage.hero} />
-      <Intro intro={homepage.intro}/>
+      <Intro id="about" intro={homepage.intro}/>
       <LogoMarquee brandsServed={homepage.brandsServed} />
-      <Categories categories={solutionCategories?.data} />
-      <FeaturesSection features={features?.data} />
-      <Insights insights={insights?.data} />
+      <Categories id="solutions" categories={solutionCategories?.data} />
+      <FeaturesSection id="features" features={features?.data} />
+      <Insights id="insights" insights={insights?.data} />
       {/* <Portfolio projects={homepage.projects ?? []} /> */}
       {/* <Features features={homepage.features} /> */}
       {/* <Testimonials testimonials={homepage.testimonials} /> */}

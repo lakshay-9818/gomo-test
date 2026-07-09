@@ -142,6 +142,17 @@ export interface HeaderSettingsData {
   ctaLink: string;
 }
 
+export interface TeamMemberData {
+  _id: string
+  name: string
+  role: string
+  description?: string
+  phone?: string
+  email?: string
+  linkedin?: string
+  image?: unknown
+}
+
 export interface FooterLinkItem {
   label: string;
   href: string;

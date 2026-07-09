@@ -8,9 +8,10 @@ import {
   allProductsQuery,
   productBySlugQuery,
   relatedProductsQuery,
+  teamMembersQuery,
 } from '@/sanity/lib/queries'
 import { mockHomepage,mockCategories,mockProducts } from '@/lib/mockData'
-import type { HomepageData, ProductData, SiteSettingsData,SolutionCategory, FeatureItem, InsightData,HeaderSettingsData,FooterSettingsData} from '@/types'
+import type { HomepageData, ProductData, SiteSettingsData,SolutionCategory, FeatureItem, InsightData,HeaderSettingsData,FooterSettingsData, TeamMemberData} from '@/types'
 
 export interface ContentResult<T> {
   data: T
@@ -197,6 +198,49 @@ export async function getProductBySlug(slug: string): Promise<ContentResult<Prod
     console.error('Failed to fetch product from Sanity:', err)
     const fallback = mockProducts.find((p) => p.slug === slug) ?? null
     return { data: fallback, isFallback: true, error: 'Could not reach Sanity.' }
+  }
+}
+
+const mockTeamMembers: TeamMemberData[] = [
+  {
+    _id: 'mock-emma',
+    name: 'Emma Johnson',
+    role: 'Senior Design Consultant',
+    description: 'Emma brings over 12 years of experience in hospitality interior design, specialising in creating functional yet inspiring commercial kitchen and dining spaces.',
+    phone: '+46 70 123 45 67',
+    email: 'emma.johnson@gomo.se',
+    linkedin: 'linkedin.com/in/emma-johnson',
+  },
+  {
+    _id: 'mock-lucas',
+    name: 'Lucas Andersson',
+    role: 'Project Manager',
+    description: 'Lucas ensures every project runs on time and on budget. With a background in construction management, he coordinates seamlessly between clients, architects, and contractors.',
+    phone: '+46 70 234 56 78',
+    email: 'lucas.andersson@gomo.se',
+  },
+  {
+    _id: 'mock-sofia',
+    name: 'Sofia Lundberg',
+    role: 'Sustainability Lead',
+    description: 'Sofia drives our sustainability initiatives, advising clients on energy-efficient equipment, material sourcing, and circular design principles that reduce environmental impact.',
+    linkedin: 'linkedin.com/in/sofia-lundberg',
+  },
+]
+
+export async function getTeamMembers(): Promise<ContentResult<TeamMemberData[]>> {
+  if (!hasSanityConfig) {
+    return { data: mockTeamMembers, isFallback: true, error: 'Sanity is not configured yet.' }
+  }
+  try {
+    const data = await client.fetch<TeamMemberData[]>(teamMembersQuery, {}, { next: { revalidate: 60 } })
+    if (!data || data.length === 0) {
+      return { data: mockTeamMembers, isFallback: true, error: 'No team members found in Sanity.' }
+    }
+    return { data, isFallback: false }
+  } catch (err) {
+    console.error('Failed to fetch team members from Sanity:', err)
+    return { data: mockTeamMembers, isFallback: true, error: 'Could not reach Sanity.' }
   }
 }
 

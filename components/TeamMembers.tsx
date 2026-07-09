@@ -1,18 +1,9 @@
 import Image from 'next/image'
-
-export type TeamMember = {
-  id: string;
-  name: string;
-  role: string;
-  description: string;
-  phone?: string;
-  email?: string;
-  linkedin?: string;
-  imageSrc: string;
-};
+import { urlForImage } from '@/sanity/lib/image'
+import type { TeamMemberData } from '@/types'
 
 type TeamMembersProps = {
-  members: TeamMember[];
+  members: TeamMemberData[];
 };
 
 function ContactRow({ label }: { label: string }) {
@@ -27,20 +18,28 @@ function ContactRow({ label }: { label: string }) {
 export default function TeamMembers({ members }: TeamMembersProps) {
   return (
     <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
-      {members.map((member) => (
+      {members.map((member) => {
+        const imageUrl = member.image
+          ? urlForImage(member.image as never)?.width(240).height(240).url()
+          : undefined
+        return (
         <article
-          key={member.id}
+          key={member._id}
           className="bg-white border border-gray-200 rounded-2xl p-6 shadow-[0_12px_30px_rgba(15,23,42,0.08)]"
         >
           <div className="flex flex-col items-center text-center mb-5">
             <div className="relative w-[120px] h-[120px] rounded-[22px] overflow-hidden mb-[18px]">
-              <Image
-                src={member.imageSrc}
-                alt={member.name}
-                fill
-                className="object-cover"
-                unoptimized
-              />
+              {imageUrl ? (
+                <Image
+                  src={imageUrl}
+                  alt={member.name}
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-200" />
+              )}
             </div>
             <div>
               <h2 className="m-0 text-lg font-semibold text-gray-900">{member.name}</h2>
@@ -54,7 +53,8 @@ export default function TeamMembers({ members }: TeamMembersProps) {
             {member.linkedin && <ContactRow label={member.linkedin} />}
           </div>
         </article>
-      ))}
+        );
+      })}
     </div>
   );
 }

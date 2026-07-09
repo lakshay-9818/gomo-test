@@ -34,7 +34,7 @@ export const headerSettingsType = defineType({
       name: 'ctaLink',
       title: 'CTA Button Link',
       type: 'string',
-      initialValue: '/contact',
+      initialValue: '/products#contact',
       validation: (Rule) => Rule.required(),
     }),
   ],

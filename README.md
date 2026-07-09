@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gomo Test
 
-## Getting Started
+A Next.js application with Sanity CMS for managing bakery and hospitality equipment content.
 
-First, run the development server:
+## CMS
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This project uses [Sanity](https://www.sanity.io/) as its headless CMS.
+
+**Studio:** Accessible at `/studio` when the dev server is running.
+
+**Schema types:**
+- `homepage` — Homepage hero, intro, brands served
+- `solutionCategory` — Solution/industry categories
+- `featureItem` — Feature highlight items
+- `insight` — News, articles, and press releases
+- `product` — Product catalog with name, slug, description, images, gallery, category, article number, models, SEO
+- `teamMember` — Team member profiles with name, role, description, image, phone, email, LinkedIn
+- `headerSettings` — Navigation bar configuration (logo, nav items, CTA)
+- `footerSettings` — Footer configuration (columns, links, contact info, newsletter)
+- `seo` — Reusable SEO object (meta title, description, OG image)
+
+## Setup
+
+### Prerequisites
+
+- Node.js 18+
+- A Sanity project (or use the existing one)
+
+### Environment Variables
+
+Create a `.env.local` file:
+
+```env
+NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_API_VERSION=2026-07-07
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Install & Run
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+### Studio
 
-To learn more about Next.js, take a look at the following resources:
+The Sanity Studio is embedded at `/studio`. If Sanity is not configured, the app falls back to mock data so the UI renders without a running CMS.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API Endpoints
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### `POST /api/contact`
 
-## Deploy on Vercel
+Contact form submission endpoint.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Request body:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```json
+{
+  "name": "string (required)",
+  "phone": "string (required)",
+  "email": "string (required, valid email)",
+  "company": "string (required)",
+  "message": "string (optional)"
+}
+```
+
+**Success response (200):**
+
+```json
+{
+  "success": true,
+  "message": "Message received successfully"
+}
+```
+
+**Validation error (400):**
+
+```json
+{
+  "success": false,
+  "errors": [
+    { "field": "email", "message": "Invalid email format" }
+  ]
+}
+```
+
+**Server error (500):**
+
+```json
+{
+  "success": false,
+  "error": "Failed to process request"
+}
+```

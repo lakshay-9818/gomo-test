@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import ProductGrid from '@/components/ProductGrid'
 import ErrorState from '@/components/ErrorState'
 import { getAllProducts } from '@/lib/content'
-import { ExpertSection } from '@/components/ExpertSection'
+import ContactSection from '@/components/ContactSection'
 
 export const revalidate = 60
 
@@ -60,7 +60,7 @@ export default async function ProductsPage() {
           </p>
         </div>
       </div>
-      <ExpertSection/>
+      <ContactSection/>
     </div>
   )
 }

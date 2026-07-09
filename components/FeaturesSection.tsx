@@ -8,12 +8,12 @@ const content=
         ctaText:"Learn More",
         ctaLink:"#features"};
 
-export default function FeaturesSection({ features }: { features: FeatureItem[] }) {
+export default function FeaturesSection({ features, id }: { features: FeatureItem[]; id?: string }) {
 
   if (!features || features.length === 0) return null;
 
   return (
-    <section className="bg-[#b3cbd2] text-[#1c2c24] font-sans py-16 md:py-24 rounded-2xl overflow-hidden max-w-7xl mx-auto">
+    <section id={id} className="bg-[#b3cbd2] text-[#1c2c24] font-sans py-16 md:py-24 rounded-2xl overflow-hidden max-w-7xl mx-auto">
       
       {/* Header Context */}
       <div className="px-6 md:px-12">

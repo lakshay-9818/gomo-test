@@ -6,7 +6,7 @@ import Link from 'next/link';
 import type { InsightData } from '@/types';
 import { urlForImage } from '@/sanity/lib/image';
 
-export default function Insights({ insights }: { insights: InsightData[] }) {
+export default function Insights({ insights, id }: { insights: InsightData[]; id?: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -28,7 +28,7 @@ export default function Insights({ insights }: { insights: InsightData[] }) {
   if (!insights || insights.length === 0) return null;
 
   return (
-    <section className="bg-[#F2EBE2] py-20 px-6 md:px-12 lg:px-16 overflow-hidden">
+    <section id={id} className="bg-[#F2EBE2] py-20 px-6 md:px-12 lg:px-16 overflow-hidden">
       {/* Header Container */}
       <div className="max-w-4xl mx-auto text-center mb-16 flex flex-col items-center">
         <span className="text-sm md:text-base font-serif italic text-gray-800 mb-4 tracking-wide">
