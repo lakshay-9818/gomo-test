@@ -5,8 +5,9 @@ import {
   getAllFeatureItemsQuery,
   getAllInsightsQuery,
   getLayoutDataQuery,
+  allProductsQuery
 } from '@/sanity/lib/queries'
-import { mockHomepage,mockCategories } from '@/lib/mockData'
+import { mockHomepage,mockCategories,mockProducts } from '@/lib/mockData'
 import type { HomepageData, ProductData, SiteSettingsData,SolutionCategory, FeatureItem, InsightData,HeaderSettingsData,FooterSettingsData} from '@/types'
 
 export interface ContentResult<T> {
@@ -154,6 +155,23 @@ export async function getAllInsights(): Promise<ContentResult<InsightData[]>> {
     return { data: [], isFallback: true, error: 'Could not reach Sanity.' }
   }
 }
+
+export async function getAllProducts(): Promise<ContentResult<ProductData[]>> {
+  if (!hasSanityConfig) {
+    return { data: mockProducts, isFallback: true, error: 'Sanity is not configured yet.' }
+  }
+  try {
+    const data = await client.fetch<ProductData[]>(allProductsQuery, {}, { next: { revalidate: 60 } })
+    if (!data || data.length === 0) {
+      return { data: mockProducts, isFallback: true, error: 'No products found in Sanity.' }
+    }
+    return { data, isFallback: false }
+  } catch (err) {
+    console.error('Failed to fetch products from Sanity:', err)
+    return { data: mockProducts, isFallback: true, error: 'Could not reach Sanity.' }
+  }
+}
+
 // export async function getAllProducts(): Promise<ContentResult<ProductData[]>> {
 //   if (!hasSanityConfig) {
 //     return { data: mockProducts, isFallback: true, error: 'Sanity is not configured yet.' }

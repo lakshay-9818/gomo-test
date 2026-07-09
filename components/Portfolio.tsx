@@ -6,7 +6,7 @@ import type { ProjectData } from '@/types'
 
 export default function Portfolio({ projects }: { projects: ProjectData[] }) {
   return (
-    <section className="bg-[#F6F1EA] py-20 px-6 md:px-12 lg:px-16 overflow-hidden">
+    <section className="bg-[#F2EBE2] py-20 px-6 md:px-12 lg:px-16 overflow-hidden">
       {/* Header Container */}
       <div className="max-w-4xl mx-auto text-center mb-16 flex flex-col items-center">
         <span className="text-sm md:text-base font-serif italic text-gray-800 mb-4 tracking-wide">

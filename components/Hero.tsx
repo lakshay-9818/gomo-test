@@ -44,7 +44,7 @@ export default function Hero({ hero }: { hero?: HeroData }) {
                href={hero.ctaHref || '/products'}
                className="mt-8 inline-flex items-center rounded-lg bg-gray-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-gray-700"
              >
-               //downArrow
+                {/* downArrow */}
              </Link>
              </>
           

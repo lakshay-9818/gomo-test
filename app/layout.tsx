@@ -39,7 +39,7 @@ const {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#F6F1EA]">
+      <body className="min-h-full flex flex-col">
         {/* Render Navbar globally across all page routes if data successfully pulls */}
         {header && <Navbar data={header} />}
         

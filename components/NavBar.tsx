@@ -15,7 +15,7 @@ export default function Navbar({ data }: NavbarProps) {
   if (!data) return null;
 
   return (
-    <header className="bg-[#F6F1EA] text-[#1A2B23] sticky top-0 z-50 border-b border-gray-200/40 px-6 md:px-12 lg:px-16 py-4 transition-all">
+    <header className="bg-[#F2EBE2] text-[#1A2B23] sticky top-0 z-50 border-b border-gray-200/40 px-6 md:px-12 lg:px-16 py-4 transition-all">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-12">
         
         {/* Left Side: Brand Logo */}
@@ -56,7 +56,7 @@ export default function Navbar({ data }: NavbarProps) {
                   </button>
 
                   {/* Desktop Dropdown Submenu Layer */}
-                  <div className={`absolute top-full left-0 bg-[#F6F1EA] shadow-xl border border-black/5 rounded-xl py-3 w-56 transition-all duration-200 origin-top ${
+                  <div className={`absolute top-full left-0 bg-[#F2EBE2] shadow-xl border border-black/5 rounded-xl py-3 w-56 transition-all duration-200 origin-top ${
                     isOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-95 invisible'
                   }`}>
                     {item.links.map((subLink, subIdx) => (
@@ -110,7 +110,7 @@ export default function Navbar({ data }: NavbarProps) {
 
       {/* Mobile Drawer Menu Overlays */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-[81px] bg-[#F6F1EA] z-40 border-t border-gray-200/50 p-6 flex flex-col gap-6 animate-fadeIn">
+        <div className="lg:hidden fixed inset-0 top-[81px] bg-[#F2EBE2] z-40 border-t border-gray-200/50 p-6 flex flex-col gap-6 animate-fadeIn">
           <div className="flex flex-col gap-4 font-sans text-base font-medium">
             {data.navItems?.map((item, idx) => (
               <div key={idx} className="border-b border-black/5 pb-2">

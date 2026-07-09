@@ -39,6 +39,15 @@ export const getLayoutDataQuery = `{
     }
   }`;
 
+  export const allProductsQuery = groq`
+*[_type == "product"] | order(name asc){
+  _id,
+  name,
+  "slug": slug.current,
+  shortDescription,
+  mainImage,
+  category,
+}`
 // export const homepageQuery = groq`
 // *[_type == "homepage"][0]{
 //   hero{ heading, ctaLabel, ctaHref, image },

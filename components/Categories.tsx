@@ -81,7 +81,7 @@
 //           <div className="bg-[#1e2d2f] text-white p-8 md:p-12 rounded-2xl flex flex-col justify-center min-h-[500px]">
 //             <ul className="space-y-4 md:space-y-5">
 //               {industries.map((item) => {
-//                 const isActive = activeTab.id === item.id;
+//                 const isActive = currentTab.id === item.id;
 //                 return (
 //                   <li key={item.id}>
 //                     <button
@@ -107,8 +107,8 @@
             
 //             {/* Dynamic Background Image */}
 //             <Image
-//               src={activeTab.image}
-//               alt={activeTab.name}
+//               src={currentTab.image}
+//               alt={currentTab.name}
 //               fill
 //               className="object-cover transition-transform duration-700 ease-out"
 //               sizes="(max-w-1024px) 100vw, 50vw"
@@ -119,12 +119,12 @@
 //             <div className="relative w-full p-8 md:p-10 bg-black/20 backdrop-blur-md border-t border-white/10 text-white flex flex-col justify-between group">
 //               <div>
 //                 <h3 className="text-xl md:text-2xl font-normal mb-4 font-sans">
-//                   {activeTab.name}
+//                   {currentTab.name}
 //                 </h3>
                 
 //                 {/* Dynamically Populated Sub-tags */}
 //                 <div className="flex flex-wrap gap-2 mb-4">
-//                   {activeTab.tags.map((tag, idx) => (
+//                   {currentTab.tags.map((tag, idx) => (
 //                     <span 
 //                       key={idx} 
 //                       className="text-[11px] font-light bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-1 rounded-full text-slate-200"
@@ -135,7 +135,7 @@
 //                 </div>
 
 //                 <p className="text-sm font-light text-slate-200/90 leading-relaxed max-w-md mb-8">
-//                   {activeTab.description}
+//                   {currentTab.description}
 //                 </p>
 //               </div>
 
@@ -168,13 +168,16 @@ import type {SolutionCategory} from '@/types'
 
 
 export default function Categories({ categories }: { categories: SolutionCategory[] }) {
+  // Hooks MUST be called before any early return
+  const [activeTab, setActiveTab] = useState<SolutionCategory | null>(null);
+
   // Safe Fallback: Handle situations where Sanity data might be empty or loading
   if (!categories || categories.length === 0) {
     return null;
   }
 
-  // 3. Initialize state using the first item passed in the array prop
-  const [activeTab, setActiveTab] = useState<SolutionCategory>(categories[0]);
+  // Initialize once categories are available
+  const currentTab = activeTab ?? categories[0];
 
   return (
     <section className="bg-[#f4eee6] text-[#1c2c24] font-sans px-6 py-16 md:py-24">
@@ -197,7 +200,7 @@ export default function Categories({ categories }: { categories: SolutionCategor
           <div className="bg-[#1e2d2f] text-white p-8 md:p-12 rounded-2xl flex flex-col justify-center min-h-[500px]">
             <ul className="space-y-4 md:space-y-5">
               {categories.map((item) => {
-                const isActive = activeTab._id === item._id;
+                const isActive = currentTab._id === item._id;
                 return (
                   <li key={item._id}>
                     <button
@@ -222,10 +225,10 @@ export default function Categories({ categories }: { categories: SolutionCategor
           {/* Right Panel: Feature Showroom Card */}
           <div className="relative rounded-2xl overflow-hidden min-h-[500px] flex flex-col justify-end group shadow-md">
 
-                      {activeTab.image && 
+                      {currentTab.image && 
                           <Image
-                              src={urlForImage(activeTab.image)?.width(1200).height(800).url() || 'image-placeholder.jpg'}
-                              alt={activeTab.name}
+                              src={urlForImage(currentTab.image)?.width(1200).height(800).url() || 'image-placeholder.jpg'}
+                              alt={currentTab.name}
                               fill
                               className="object-cover transition-transform duration-700 ease-out"
                               sizes="(max-width: 1024px) 100vw, 50vw"
@@ -237,13 +240,13 @@ export default function Categories({ categories }: { categories: SolutionCategor
             <div className="relative w-full p-8 md:p-10 bg-black/20 backdrop-blur-md border-t border-white/10 text-white flex flex-col justify-between group">
               <div>
                 <h3 className="text-xl md:text-2xl font-normal mb-4 font-sans">
-                  {activeTab.name}
+                  {currentTab.name}
                 </h3>
                 
                 {/* Dynamically Populated Sub-tags from Sanity Array */}
-                {activeTab.tags && activeTab.tags.length > 0 && (
+                {currentTab.tags && currentTab.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {activeTab.tags.map((tag, idx) => (
+                    {currentTab.tags.map((tag, idx) => (
                       <span 
                         key={idx} 
                         className="text-[11px] font-light bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-1 rounded-full text-slate-200"
@@ -254,9 +257,9 @@ export default function Categories({ categories }: { categories: SolutionCategor
                   </div>
                 )}
 
-                {activeTab.description && (
+                {currentTab.description && (
                   <p className="text-sm font-light text-slate-200/90 leading-relaxed max-w-md mb-8">
-                    {activeTab.description}
+                    {currentTab.description}
                   </p>
                 )}
               </div>
